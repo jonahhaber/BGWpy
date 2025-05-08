@@ -109,13 +109,13 @@ def extract_inteqp_eqp(fname):
     with open(fname, 'r') as f:
 
         # Read the first block to compute the dimensions
-        line = f.next()
+        line = f.readline()
         parts = line.split()
         nstates = int(parts[3])
         spins = list()
         bands = list()
         for i in range(nstates):
-            line = f.next()
+            line = f.readline()
             parts = line.split()
             spins.append(int(parts[0]))
             bands.append(int(parts[1]))
@@ -127,12 +127,9 @@ def extract_inteqp_eqp(fname):
 
         # Count the remaining lines
         nlines = nstates + 1
-        while True:
-            try:
-                line = f.next()
-                nlines += 1
-            except StopIteration:
-                break
+        while line:
+            line = f.readline()
+            nlines += 1
 
         nkpt = nlines // (nstates + 1)
 
@@ -145,14 +142,14 @@ def extract_inteqp_eqp(fname):
 
         for ikpt in range(nkpt):
 
-            line = f.next()
+            line = f.readline()
             parts = line.split()
 
             kpts[ikpt,:] = map(float, parts[:3])
 
             for i in range(nstates):
 
-                line = f.next()
+                line = f.readline()
                 parts = line.split()
 
                 ispin = i // nband

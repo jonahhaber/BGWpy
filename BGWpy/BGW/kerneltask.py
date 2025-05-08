@@ -73,6 +73,10 @@ class KernelTask(BGWTask):
 
         # Set up the run script
         self.wfn_co_fname = kwargs['wfn_co_fname']
+# JBH Edit
+        if 'wfnq_co_fname' in kwargs:
+            self.wfnq_co_fname = kwargs['wfnq_co_fname']
+# JBH Edit
         self.eps0mat_fname = kwargs['eps0mat_fname']
         self.epsmat_fname = kwargs['epsmat_fname']
 
@@ -88,6 +92,19 @@ class KernelTask(BGWTask):
     def wfn_co_fname(self, value):
         self._wfn_co_fname = value
         self.update_link(value, 'WFN_co')
+
+# JBH Edit
+    @property
+    def wfnq_co_fname(self):
+        return self._wfnq_co_fname
+  
+    @wfnq_co_fname.setter
+    def wfnq_co_fname(self, value):
+        self._wfnq_co_fname = value
+# JBH BGW having trouble openning from the the same file
+        self.update_copy(value, 'WFNq_co')
+        #self.update_link(value, 'WFNq_co')
+# JBH Edit
 
     @property
     def eps0mat_fname(self):

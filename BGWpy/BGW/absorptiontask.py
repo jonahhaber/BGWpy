@@ -77,6 +77,10 @@ class AbsorptionTask(BGWTask):
 
         # Run script
         self.wfn_co_fname = kwargs['wfn_co_fname']
+# JBH Edit
+        if 'wfnq_co_fname' in kwargs:
+            self.wfnq_co_fname = kwargs['wfnq_co_fname']
+# JBH Edit
         self.wfn_fi_fname = kwargs['wfn_fi_fname']
         self.wfnq_fi_fname = kwargs['wfnq_fi_fname']
 
@@ -90,6 +94,10 @@ class AbsorptionTask(BGWTask):
             self.bsexmat_fname = kwargs['bsexmat_fname']
 
         self.eqp_fname = kwargs['eqp_fname']
+# JBH Edit
+        if 'eqp_q_fname' in kwargs:
+            self.eqp_q_fname = kwargs['eqp_q_fname']
+# JBH Edit
 
         ex = 'absorption.cplx.x' if self._flavor_complex else 'absorption.real.x'
         self.runscript['ABSORPTION'] = ex
@@ -103,6 +111,17 @@ class AbsorptionTask(BGWTask):
     def wfn_co_fname(self, value):
         self._wfn_co_fname = value
         self.update_link(value, 'WFN_co')
+
+# JBH Edit
+    @property
+    def wfnq_co_fname(self):
+        return self._wfnq_co_fname
+ 
+    @wfnq_co_fname.setter
+    def wfnq_co_fname(self, value):
+        self._wfnq_co_fname = value
+        self.update_link(value, 'WFNq_co')
+# JBH Edit
 
     @property
     def wfn_fi_fname(self):
@@ -199,6 +218,17 @@ class AbsorptionTask(BGWTask):
     def eqp_fname(self, value):
         self._eqp_fname = value
         self.update_link(value, 'eqp_co.dat')
+
+# JBH Edit
+    @property
+    def eqp_q_fname(self):
+        return self._eqp_q_fname
+
+    @eqp_q_fname.setter
+    def eqp_q_fname(self, value):
+        self._eqp_q_fname = value
+        self.update_link(value, 'eqp_co_q.dat')
+# JBH Edit
 
     def write(self):
         super(AbsorptionTask, self).write()

@@ -149,6 +149,8 @@ class BSEFlow(Workflow):
             qshift = self.qshift,
             extra_lines = kwargs.pop('epsilon_extra_lines', []),
             extra_variables = kwargs.pop('epsilon_extra_variables', {}),
+# JBH            
+            symkpt=False,
             **kwargs)
         
         # Self-energy calculation (sigma)
@@ -159,6 +161,8 @@ class BSEFlow(Workflow):
             extra_variables = kwargs.pop('sigma_extra_variables', {}),
             eps0mat_fname = self.epsilontask.eps0mat_fname,
             epsmat_fname = self.epsilontask.epsmat_fname,
+# JBH
+            symkpt=False,
             **kwargs)
 
         # Kernel calculation (BSE)
@@ -258,6 +262,7 @@ class BSEFlow(Workflow):
             kshift = self.kshift,
             nbnd = self.nbnd,
             rhog_flag = True,
+# JBH
             symkpt=False,
             **kwargs)
 

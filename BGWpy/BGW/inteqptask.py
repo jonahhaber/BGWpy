@@ -1,11 +1,12 @@
 
+import os
 from collections import OrderedDict
 from ..core import BasicInputFile
 from .bgwtask import BGWTask
 
-__all__ = ['IneqpInput', 'IneqpTask']
+__all__ = ['InteqpInput', 'InteqpTask']
 
-class IneqpInput(BasicInputFile):
+class InteqpInput(BasicInputFile):
 
     def __init__(self, *keywords, **variables):
 
@@ -18,10 +19,10 @@ class IneqpInput(BasicInputFile):
 
         all_variables.update(variables)
 
-        super(IneqpInput, self).__init__(all_variables, keywords)
+        super(InteqpInput, self).__init__(all_variables, keywords)
 
 
-class IneqpTask(BGWTask):
+class InteqpTask(BGWTask):
 
     _TASK_NAME = 'Inteqp task'
     _input_fname = 'inteqp.inp'
@@ -29,13 +30,13 @@ class IneqpTask(BGWTask):
 
     def __init__(self, dirname, **kwargs):
 
-        super(IneqpTask, self).__init__(dirname, **kwargs)
+        super(InteqpTask, self).__init__(dirname, **kwargs)
 
         self.eqp_co_fname = kwargs['eqp_co_fname']
         self.wfn_co_fname = kwargs['wfn_co_fname']
         self.wfn_fi_fname = kwargs['wfn_fi_fname']
 
-        self.input = IneqpInput(
+        self.input = InteqpInput(
             number_val_bands_coarse = kwargs.pop('number_val_bands_coarse', 1),
             number_val_bands_fine = kwargs.pop('number_val_bands_fine', 1),
             number_cond_bands_coarse = kwargs.pop('number_cond_bands_coarse', 1),
@@ -51,7 +52,7 @@ class IneqpTask(BGWTask):
 
 
     def write(self):
-        super(IneqpTask, self).write()
+        super(InteqpTask, self).write()
         with self.exec_from_dirname():
             self.input.write()
 
@@ -82,3 +83,7 @@ class IneqpTask(BGWTask):
         self._wfn_fi_fname = value
         self.update_link(value, 'WFN_fi')
 
+    @property
+    def eqp_fname(self):
+        """Path to the eqp.dat file produced."""
+        return os.path.join(self.dirname, 'eqp.dat')
